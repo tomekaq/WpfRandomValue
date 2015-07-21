@@ -48,6 +48,8 @@ namespace WpfRandomValue
                 var t = observableCollection[i];
                 hashSet.Add(t.NUMBER);
             }
+            observableCollection.Select(x => x.NUMBER).ToList().ForEach(x => hashSet.Add(x));
+
 
             ObservableCollection<int> list = new ObservableCollection<int>();
             using (BCRandomStream randomStream = new BCRandomStream(100))
@@ -61,7 +63,8 @@ namespace WpfRandomValue
             }
             return list;
 }
-        public object Generate()
+
+        public object CleanTable()
         {
             connectionString = GlobalSetting.CreateConectionString(
                 @"C:\Users\user\Documents\visual studio 2013\Projects\WpfRandomValue\WPFDatabase.fdb",
@@ -70,12 +73,34 @@ namespace WpfRandomValue
             {
                 conn.Open();
 
-                using (BCRandomStream randomStream = new BCRandomStream(100))
+                    var command = new FbCommand();
+                    command.Connection = conn;
+                    command.CommandText = "DELETE FROM NUMBERTABLE";
+                    //command.Parameters.Add();
+                    return command.ExecuteScalar();
+            }
+        }
+
+        public object Generate(int maxValue)
+        {
+            connectionString = GlobalSetting.CreateConectionString(
+                @"C:\Users\user\Documents\visual studio 2013\Projects\WpfRandomValue\WPFDatabase.fdb",
+                "SYSDBA", "masterkey", "WIN1250");
+            using (var conn = new FbConnection(connectionString))
+            {
+                conn.Open();
+
+                using (BCRandomStream randomStream = new BCRandomStream(maxValue))
                 {
                     var command = new FbCommand();
                     command.Connection = conn;
-                    command.CommandText = string.Format("INSERT INTO NUMBERTABLE(NUMBER) VALUES ({0})", randomStream.Read());
-                    //command.Parameters.Add();
+                    command.CommandText = string.Format("INSERT INTO NUMBERTABLE(NUMBER) VALUES (@number)");//,     );
+                    
+                    FbParameter param = new FbParameter();
+                    param.ParameterName = "@number";
+                    param.Value = randomStream.Read();
+
+                    command.Parameters.Add(param);
                     return command.ExecuteScalar();
                 }
             }

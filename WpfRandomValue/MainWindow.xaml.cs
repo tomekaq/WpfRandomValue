@@ -27,11 +27,12 @@ namespace WpfRandomValue
             
         }
 
-        public void @do(int amount){
+        public void @do(int maxValue,int amount){
             var rb = new DataAccess();
+            rb.CleanTable();
             for (int i = 0; i < amount; i++)
             {
-                rb.Generate();
+                rb.Generate(maxValue);
             }
 
             var ObservableSet = rb.ModelCollection();
@@ -42,8 +43,17 @@ namespace WpfRandomValue
 
         private void btnDo_Click(object sender, RoutedEventArgs e)
         {
-            int input = int.Parse(inputBox.Text);
-            @do(input);
+            try
+            {
+                int maxValue = int.Parse(inputBox1.Text);
+                int amount = int.Parse(inputBox2.Text);
+                if ((maxValue != null) && (amount != null))
+                    @do(maxValue, amount);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Podaj maxValue");
+            }
         }
     }
 }
