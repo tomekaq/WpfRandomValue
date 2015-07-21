@@ -1,0 +1,17 @@
+﻿<Window x:Class="WpfRandomValue.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="350" Width="199">
+
+    <Grid >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+        <ListBox x:Name="NumberList" HorizontalAlignment="Center" ItemsSource="{Binding}" Width="150" Margin="20,0,21,0"/>
+        <TextBox x:Name="inputBox" Grid.Row="1" HorizontalAlignment="Right" Height="20" Width="150" TextWrapping="Wrap" VerticalAlignment="Top" Grid.RowSpan="2"/>
+        <Button x:Name="btnDo" Grid.Row="2" Click="btnDo_Click">generuj</Button>
+    </Grid>
+
+</Window>
