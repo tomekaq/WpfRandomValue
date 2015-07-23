@@ -7,7 +7,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="137*"/>
             <RowDefinition Height="20"/>
-            <RowDefinition Height="20"/>
+            <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
         <ListBox x:Name="NumberList" ItemsSource="{Binding}" Margin="22,10,21,10"/>
         <Grid Grid.Row="1">
@@ -18,7 +18,7 @@
             <TextBox x:Name="inputBox1" Grid.Column="0" HorizontalAlignment="Left"  Height="20" Width="122" TextWrapping="Wrap" VerticalAlignment="Top"/>
             <TextBox x:Name="inputBox2" HorizontalAlignment="Right" Height="20" Width="123" TextWrapping="Wrap" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
         </Grid>
-        <Button x:Name="btnDo" Grid.Row="4" Click="btnDo_Click">generuj</Button>
+        <Button x:Name="btnDo" Grid.Row="4" Click="btnDo_Click" Height="30">generuj</Button>
     </Grid>
 
 </Window>

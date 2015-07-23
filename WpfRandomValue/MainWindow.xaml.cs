@@ -47,7 +47,7 @@ namespace WpfRandomValue
             {
                 int maxValue = int.Parse(inputBox1.Text);
                 int amount = int.Parse(inputBox2.Text);
-                if ((maxValue != null) && (amount != null))
+                if ((maxValue != 0) && (amount != 0))
                     @do(maxValue, amount);
             }
             catch (Exception ex)

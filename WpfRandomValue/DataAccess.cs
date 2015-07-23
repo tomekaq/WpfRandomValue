@@ -40,28 +40,34 @@ namespace WpfRandomValue
             return observableCollection;
         }
 
-        public ObservableCollection<int> GenerateSecond(ObservableCollection<Model> observableCollection)
+        public List<int> GenerateSecond(ObservableCollection<Model> observableCollection)
         {
             HashSet<int> hashSet = new HashSet<int>();
-            for (int i = 0; i < observableCollection.Count; i++)
-            {
-                var t = observableCollection[i];
-                hashSet.Add(t.NUMBER);
-            }
-            observableCollection.Select(x => x.NUMBER).ToList().ForEach(x => hashSet.Add(x));
+
+            observableCollection
+                .Select(x => x.NUMBER)
+                .ToList()
+                .ForEach(x => hashSet.Add(x));
 
 
             ObservableCollection<int> list = new ObservableCollection<int>();
             using (BCRandomStream randomStream = new BCRandomStream(100))
             {
-                for (int i = 0; i < observableCollection.Count; i++)
-                {
+                //for (int i = 0; i < observableCollection.Count; i++)
+                //{
                     var num = randomStream.Read();
                     if (hashSet.Contains(num))
-                        list.Add(num);
-                }
+                        hashSet.Add(num);
+
+                    List<int> lista=  Enumerable.Range(0,observableCollection.Count)
+                        .Select(i => randomStream.Read())
+                        .Where(x => hashSet.Contains(x)).ToList();
+            //    }
+                
+
+            return lista;
             }
-            return list;
+            
 }
 
         public object CleanTable()
