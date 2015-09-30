@@ -53,22 +53,14 @@ namespace WpfRandomValue
             ObservableCollection<int> list = new ObservableCollection<int>();
             using (BCRandomStream randomStream = new BCRandomStream(100))
             {
-                //for (int i = 0; i < observableCollection.Count; i++)
-                //{
-                    var num = randomStream.Read();
-                    if (hashSet.Contains(num))
-                        hashSet.Add(num);
+                List<int> lista = Enumerable.Range(0, observableCollection.Count)
+                    .Select(i => randomStream.Read())
+                    .Where(x => hashSet.Contains(x)).ToList();
 
-                    List<int> lista=  Enumerable.Range(0,observableCollection.Count)
-                        .Select(i => randomStream.Read())
-                        .Where(x => hashSet.Contains(x)).ToList();
-            //    }
-                
-
-            return lista;
+                return lista;
             }
-            
-}
+
+        }
 
         public object CleanTable()
         {
@@ -79,11 +71,11 @@ namespace WpfRandomValue
             {
                 conn.Open();
 
-                    var command = new FbCommand();
-                    command.Connection = conn;
-                    command.CommandText = "DELETE FROM NUMBERTABLE";
-                    //command.Parameters.Add();
-                    return command.ExecuteScalar();
+                var command = new FbCommand();
+                command.Connection = conn;
+                command.CommandText = "DELETE FROM NUMBERTABLE";
+                //command.Parameters.Add();
+                return command.ExecuteScalar();
             }
         }
 
@@ -101,7 +93,7 @@ namespace WpfRandomValue
                     var command = new FbCommand();
                     command.Connection = conn;
                     command.CommandText = string.Format("INSERT INTO NUMBERTABLE(NUMBER) VALUES (@number)");//,     );
-                    
+
                     FbParameter param = new FbParameter();
                     param.ParameterName = "@number";
                     param.Value = randomStream.Read();
